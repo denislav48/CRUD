@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 import React, { useState, useEffect } from "react";
-import { Table, Container, Button, Modal } from "react-bootstrap";
+import { Table, Container, Button, Modal, Form } from "react-bootstrap";
 //import usersData from "../mock_data.json";
 import UsersPagination from "./UsersPagination";
 import { Link } from "react-router-dom";
@@ -15,12 +15,13 @@ function UsersList(props) {
     setSelecteId(id);
     setShow(true);
   };
-  let usersPages = Math.ceil(users.length / 10);
+  let usersPages = Math.ceil(users.length / 8);
 
   useEffect(() => {
     fetch("http://localhost:3001/users")
       .then((res) => res.json())
-      .then((data) => setUsers(data));
+      .then((data) => setUsers(data))
+     // .then(() => props.changeId(users[users.length - 1].id + 1));
     // setUsers(usersData);
   }, []);
 
@@ -47,8 +48,6 @@ function UsersList(props) {
     handleClose();
   };
 
- 
-
   return (
     <Container style={{ marginTop: "10px" }}>
       <Modal show={show} onHide={handleClose}>
@@ -65,9 +64,12 @@ function UsersList(props) {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Button variant="secondary" style={{ float: "right", margin: "20px" }}>
-        Add User
-      </Button>
+
+      <Link to="/addUser">
+        <Button variant="secondary" style={{ float: "right", margin: "20px" }}>
+          Add User
+        </Button>
+      </Link>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -81,7 +83,7 @@ function UsersList(props) {
         </thead>
         <tbody>
           {users.map((user, index) => {
-            if (props.page === 1 && index < 10) {
+            if (props.page === 1 && index < 8) {
               return (
                 <tr key={user.id}>
                   <td>{user.id}</td>
@@ -89,6 +91,14 @@ function UsersList(props) {
                   <td>{user["last_name"]}</td>
                   <td>{user.email}</td>
                   <td>{user.phone}</td>
+                  <td>
+                    <Form.Check
+                      disabled
+                      type="radio"
+                      label="disabled radio"
+                      id="disabled-default-radio"
+                    />
+                  </td>
                   <td>
                     <Link to={`/edit/${user.id}`}>
                       <Button>Edit</Button>{" "}
@@ -103,8 +113,8 @@ function UsersList(props) {
                 </tr>
               );
             } else if (
-              index >= (props.page - 1) * 10 &&
-              index < props.page * 10
+              index >= (props.page - 1) * 8 &&
+              index < props.page * 8
             ) {
               return (
                 <tr key={user.id}>
@@ -114,8 +124,8 @@ function UsersList(props) {
                   <td>{user.email}</td>
                   <td>{user.phone}</td>
                   <td>
-                      <Link to={`/edit/${user.id}`}>
-                    <Button>Edit</Button>{" "}
+                    <Link to={`/edit/${user.id}`}>
+                      <Button>Edit</Button>{" "}
                     </Link>
                     <Button
                       variant="danger"
