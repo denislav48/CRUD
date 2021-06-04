@@ -1,33 +1,56 @@
 /* eslint-disable array-callback-return */
 import React, { useState, useEffect } from "react";
 import { Table, Container, Button, Modal } from "react-bootstrap";
-import usersData from "../mock_data.json";
+//import usersData from "../mock_data.json";
 import UsersPagination from "./UsersPagination";
+import { Link } from "react-router-dom";
 
 function UsersList(props) {
   const [users, setUsers] = useState([]);
   const [show, setShow] = useState(false);
-  const [deleteId, setDeleteId] = useState(null);
+  const [selectedId, setSelecteId] = useState(null);
 
   const handleClose = () => setShow(false);
   const handleShow = (id) => {
-    setDeleteId(id);
+    setSelecteId(id);
     setShow(true);
   };
   let usersPages = Math.ceil(users.length / 10);
 
   useEffect(() => {
-    setUsers(usersData);
+    fetch("http://localhost:3001/users")
+      .then((res) => res.json())
+      .then((data) => setUsers(data));
+    // setUsers(usersData);
   }, []);
 
   const deleteUser = () => {
-    const newArrayUsers = users.filter((user) => user.id !== deleteId);
+    const newArrayUsers = users.filter((user) => user.id !== selectedId);
     setUsers(newArrayUsers);
+    async function deleteID(id) {
+      const respone = await fetch(`http://localhost:3001/users/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+
+      // Awaiting for the resource to be deleted
+      const resData = "resource deleted...";
+
+      // Return response data
+      return resData;
+    }
+    deleteID(selectedId)
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
     handleClose();
   };
 
+ 
+
   return (
-    <Container style={{ marginTop: "100px" }}>
+    <Container style={{ marginTop: "10px" }}>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Modal heading</Modal.Title>
@@ -67,7 +90,9 @@ function UsersList(props) {
                   <td>{user.email}</td>
                   <td>{user.phone}</td>
                   <td>
-                    <Button>Edit</Button>{" "}
+                    <Link to={`/edit/${user.id}`}>
+                      <Button>Edit</Button>{" "}
+                    </Link>
                     <Button
                       variant="danger"
                       onClick={() => handleShow(user.id)}
@@ -89,8 +114,13 @@ function UsersList(props) {
                   <td>{user.email}</td>
                   <td>{user.phone}</td>
                   <td>
+                      <Link to={`/edit/${user.id}`}>
                     <Button>Edit</Button>{" "}
-                    <Button variant="danger"  onClick={() => handleShow(user.id)}>
+                    </Link>
+                    <Button
+                      variant="danger"
+                      onClick={() => handleShow(user.id)}
+                    >
                       Delete
                     </Button>
                   </td>

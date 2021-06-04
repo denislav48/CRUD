@@ -2,7 +2,7 @@
   "users": [
     {
       "id": 1,
-      "first_name": "Reaгaaaaa",
+      "first_name": "Rea",
       "last_name": "O' Hern",
       "email": "rohern0@meetup.com",
       "password": "KUAX2enaY",
@@ -11,12 +11,30 @@
       "avatar": "https://robohash.org/quoimpeditid.png?size=200x200&set=set1",
       "phone": "+86 857 960 2219",
       "date_of_birth": "8/10/2020",
-      "country": "cn",
+      "country": "China",
       "city": "Xintai",
       "street_address": "2675 Stephen Road",
       "postal_code": null,
       "created_at": "8/30/2019",
       "updated_at": "11/1/2020"
+    },
+    {
+      "id": 2,
+      "first_name": "Garreth",
+      "last_name": "Doerrling",
+      "email": "gdoerrling1@booking.com",
+      "password": "Z2ErQCiu",
+      "active": false,
+      "status": 2,
+      "avatar": "https://robohash.org/inaliaspraesentium.bmp?size=200x200&set=set1",
+      "phone": "+351 618 536 0033",
+      "date_of_birth": "1/12/2021",
+      "country": "Portugal",
+      "city": "Seixas do Douro",
+      "street_address": "5049 Farragut Lane",
+      "postal_code": "5155-749",
+      "created_at": "12/14/2019",
+      "updated_at": "3/26/2020"
     },
     {
       "id": 3,
@@ -35,6 +53,24 @@
       "postal_code": "73130",
       "created_at": "11/13/2019",
       "updated_at": "12/8/2020"
+    },
+    {
+      "id": 4,
+      "first_name": "Rhetta",
+      "last_name": "Vernay",
+      "email": "rvernay3@toplist.cz",
+      "password": "KMcmpcvHoRyP",
+      "active": true,
+      "status": 4,
+      "avatar": "https://robohash.org/uttemporaodio.jpg?size=200x200&set=set1",
+      "phone": "+63 695 297 6300",
+      "date_of_birth": "3/30/2020",
+      "country": "Philippines",
+      "city": "Pang",
+      "street_address": "49010 Pond Circle",
+      "postal_code": "4103",
+      "created_at": "3/30/2019",
+      "updated_at": "5/6/2020"
     },
     {
       "id": 5,
@@ -128,7 +164,7 @@
     },
     {
       "id": 10,
-      "first_name": "Dudaaaas",
+      "first_name": "Dud",
       "last_name": "Teas",
       "email": "dteas9@dropbox.com",
       "password": "gN5jlwI1gPQ2",
@@ -182,7 +218,7 @@
     },
     {
       "id": 13,
-      "first_name": "Rhettagaaa",
+      "first_name": "Rhetta",
       "last_name": "Vernay",
       "email": "rvernay3@toplist.cz",
       "password": "KMcmpcvHoRyP",
