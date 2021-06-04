@@ -6,6 +6,7 @@ import AddEditUser from "./components/AddEditUser";
 function App() {
   const [page, setPage] = useState(1);
   
+  
 
   function onPageChange(page) {
     setPage(page);
@@ -34,7 +35,9 @@ function App() {
           <Route path="/edit/:id">
             <AddEditUser />
           </Route>
-          <Route path="/users"></Route>
+          <Route path="/addUser">
+            <AddEditUser />
+          </Route>
           <Route path="/">
             <UsersList change={onPageChange} page={page} ></UsersList>
           </Route>
