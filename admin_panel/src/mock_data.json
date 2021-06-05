@@ -161,24 +161,6 @@
       "postal_code": "73130",
       "created_at": "11/13/2019",
       "updated_at": "12/8/2020"
-    },
-    {
-      "id": 13,
-      "first_name": "Rhettagaaa",
-      "last_name": "Vernay",
-      "email": "rvernay3@toplist.cz",
-      "password": "KMcmpcvHoRyP",
-      "active": true,
-      "status": 4,
-      "avatar": "https://robohash.org/uttemporaodio.jpg?size=200x200&set=set1",
-      "phone": "+63 695 297 6300",
-      "date_of_birth": "3/30/2020",
-      "country": "Philippines",
-      "city": "Pang",
-      "street_address": "49010 Pond Circle",
-      "postal_code": "4103",
-      "created_at": "3/30/2019",
-      "updated_at": "5/6/2020"
     }
   ]
 }
