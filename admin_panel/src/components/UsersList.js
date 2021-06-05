@@ -1,14 +1,24 @@
 /* eslint-disable array-callback-return */
 import React, { useState, useEffect } from "react";
-import { Table, Container, Button, Modal, Form } from "react-bootstrap";
+import {
+  Table,
+  Container,
+  Button,
+  Modal,
+  Form,
+  Row,
+  Col,
+} from "react-bootstrap";
 //import usersData from "../mock_data.json";
 import UsersPagination from "./UsersPagination";
 import { Link } from "react-router-dom";
+import { FcAlphabeticalSortingAz } from "react-icons/fc";
 
 function UsersList(props) {
   const [users, setUsers] = useState([]);
   const [show, setShow] = useState(false);
   const [selectedId, setSelecteId] = useState(null);
+  const [isAscending, setIsAscending] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = (id) => {
@@ -20,8 +30,8 @@ function UsersList(props) {
   useEffect(() => {
     fetch("http://localhost:3001/users")
       .then((res) => res.json())
-      .then((data) => setUsers(data))
-     // .then(() => props.changeId(users[users.length - 1].id + 1));
+      .then((data) => setUsers(data));
+    // .then(() => props.changeId(users[users.length - 1].id + 1));
     // setUsers(usersData);
   }, []);
 
@@ -48,6 +58,31 @@ function UsersList(props) {
     handleClose();
   };
 
+  const searchByFirstName = (name) => {
+    async function searchName() {
+      await fetch(`http://localhost:3001/users?first_name_like=${name}`)
+        .then((res) => res.json())
+        .then((data) => setUsers(data));
+    }
+    searchName();
+  };
+
+  const sortByFirstName = () => {
+    async function sort() {
+      if (!isAscending) {
+        await fetch(`http://localhost:3001/users?_sort=first_name&_order=asc`)
+          .then((res) => res.json())
+          .then((data) => setUsers(data))
+          .then(() => setIsAscending(true));
+      } else {
+        await fetch(`http://localhost:3001/users?_sort=first_name&_order=desc`)
+          .then((res) => res.json())
+          .then((data) => setUsers(data))
+          .then(() => setIsAscending(false));
+      }
+    }
+    sort();
+  };
   return (
     <Container style={{ marginTop: "10px" }}>
       <Modal show={show} onHide={handleClose}>
@@ -65,19 +100,39 @@ function UsersList(props) {
         </Modal.Footer>
       </Modal>
 
-      <Link to="/addUser">
-        <Button variant="secondary" style={{ float: "right", margin: "20px" }}>
-          Add User
-        </Button>
-      </Link>
+      <Form>
+        <Row>
+          <Col>
+            <Link to="/addUser">
+              <Button variant="secondary" style={{ float: "right" }}>
+                Add User
+              </Button>
+            </Link>
+          </Col>
+        </Row>
+        <Row className="mt-3 mb-3">
+          <Col>
+            <Form.Control
+              onChange={(ev) => {
+                searchByFirstName(ev.target.value);
+              }}
+              placeholder="Search by frst name"
+            />
+          </Col>
+        </Row>
+      </Form>
+
       <Table striped bordered hover>
         <thead>
           <tr>
             <th>ID</th>
-            <th>First Name</th>
+            <th>
+              First Name <FcAlphabeticalSortingAz onClick={() => sortByFirstName()} />{" "}
+            </th>
             <th>Last Name</th>
             <th>Email</th>
             <th>Employee Mobile</th>
+            <th>Active</th>
             <th>Action</th>
           </tr>
         </thead>
