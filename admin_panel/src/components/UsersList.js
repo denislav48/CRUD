@@ -13,19 +13,30 @@ import {
 import UsersPagination from "./UsersPagination";
 import { Link } from "react-router-dom";
 import { FcAlphabeticalSortingAz } from "react-icons/fc";
+import { ToastContainer } from "react-toastr";
 
 function UsersList(props) {
   const [users, setUsers] = useState([]);
   const [show, setShow] = useState(false);
-  const [selectedId, setSelecteId] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
   const [isAscending, setIsAscending] = useState(false);
-
+  const [usersPages, setUsersPages] = useState();
+  const [page, setPage] = useState(1);
   const handleClose = () => setShow(false);
   const handleShow = (id) => {
-    setSelecteId(id);
+    setSelectedId(id);
     setShow(true);
   };
-  let usersPages = Math.ceil(users.length / 8);
+
+
+  function onPageChange(page) {
+    setPage(page);
+    console.log(page, 'tazi');
+  }
+
+  if (usersPages === users.length / 8 && page > usersPages) {
+    onPageChange(page - 1);
+  }
 
   useEffect(() => {
     fetch("http://localhost:3001/users")
@@ -35,11 +46,18 @@ function UsersList(props) {
     // setUsers(usersData);
   }, []);
 
+  useEffect(() => {
+    let usersPages = Math.ceil(users.length / 8);
+    if (users.length) {
+      setUsersPages(usersPages);
+    }
+  }, [users]);
+
   const deleteUser = () => {
     const newArrayUsers = users.filter((user) => user.id !== selectedId);
     setUsers(newArrayUsers);
     async function deleteID(id) {
-      const respone = await fetch(`http://localhost:3001/users/${id}`, {
+      await fetch(`http://localhost:3001/users/${id}`, {
         method: "DELETE",
         headers: {
           "Content-type": "application/json",
@@ -83,8 +101,11 @@ function UsersList(props) {
     }
     sort();
   };
+  
   return (
     <Container style={{ marginTop: "10px" }}>
+
+
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Modal heading</Modal.Title>
@@ -127,7 +148,8 @@ function UsersList(props) {
           <tr>
             <th>ID</th>
             <th>
-              First Name <FcAlphabeticalSortingAz onClick={() => sortByFirstName()} />{" "}
+              First Name{" "}
+              <FcAlphabeticalSortingAz onClick={() => sortByFirstName()} />{" "}
             </th>
             <th>Last Name</th>
             <th>Email</th>
@@ -138,7 +160,39 @@ function UsersList(props) {
         </thead>
         <tbody>
           {users.map((user, index) => {
-            if (props.page === 1 && index < 8) {
+            if (page === 1 && index < 8) {
+              return (
+                <tr key={user.id}>
+                  <td>{user.id}</td>
+                  <td>{user["first_name"]}</td>
+                  <td>{user["last_name"]}</td>
+                  <td>{user.email}</td>
+                  <td>{user.phone}</td>
+                  <td>
+                    <Form.Check
+                      disabled
+                      type="radio"
+                      label="disabled radio"
+                      id="disabled-default-radio"
+                    />
+                  </td>
+                  <td>
+                    <Link to={`/edit/${user.id}`}>
+                      <Button>Edit</Button>{" "}
+                    </Link>
+                    <Button
+                      variant="danger"
+                      onClick={() => {handleShow(user.id)}}
+                    >
+                      Delete
+                    </Button>
+                  </td>
+                </tr>
+              );
+            } else if (
+              index >= (page - 1) * 8 &&
+              index < page * 8
+            ) {
               return (
                 <tr key={user.id}>
                   <td>{user.id}</td>
@@ -167,37 +221,13 @@ function UsersList(props) {
                   </td>
                 </tr>
               );
-            } else if (
-              index >= (props.page - 1) * 8 &&
-              index < props.page * 8
-            ) {
-              return (
-                <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>{user["first_name"]}</td>
-                  <td>{user["last_name"]}</td>
-                  <td>{user.email}</td>
-                  <td>{user.phone}</td>
-                  <td>
-                    <Link to={`/edit/${user.id}`}>
-                      <Button>Edit</Button>{" "}
-                    </Link>
-                    <Button
-                      variant="danger"
-                      onClick={() => handleShow(user.id)}
-                    >
-                      Delete
-                    </Button>
-                  </td>
-                </tr>
-              );
             }
           })}
         </tbody>
       </Table>
       <UsersPagination
-        change={props.change}
-        page={props.page}
+        change={onPageChange}
+        page={page}
         pages={usersPages}
       />
     </Container>
