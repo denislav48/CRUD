@@ -4,13 +4,6 @@ import UsersList from "./components/UsersList";
 import AddEditUser from "./components/AddEditUser";
 
 function App() {
-  const [page, setPage] = useState(1);
-  
-  
-
-  function onPageChange(page) {
-    setPage(page);
-  }
   
   return (
     <Router>
@@ -39,7 +32,7 @@ function App() {
             <AddEditUser />
           </Route>
           <Route path="/">
-            <UsersList change={onPageChange} page={page} ></UsersList>
+            <UsersList  ></UsersList>
           </Route>
         </Switch>
       </div>
