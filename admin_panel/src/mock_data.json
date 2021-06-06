@@ -1,6 +1,13 @@
 {
   "users": [
     {
+      "email": "deni@gmail.com",
+      "password": "$2a$10$.WI6QxC7krksLTukHfEEX.KUvIG.xyg.4TLZOuTsQsB5ouG.wQhA6",
+      "id": 17
+    }
+  ],
+  "employees": [
+    {
       "id": 1,
       "first_name": "Reaгaaaaas",
       "last_name": "O' Hern",
@@ -73,26 +80,8 @@
       "updated_at": "11/11/2020"
     },
     {
-      "id": 8,
-      "first_name": "Smith",
-      "last_name": "Screase",
-      "email": "sscrease7@cnet.com",
-      "password": "Y12kBt2WE",
-      "active": true,
-      "status": 8,
-      "avatar": "https://robohash.org/voluptatemexdoloribus.jpg?size=200x200&set=set1",
-      "phone": "+94 294 603 4521",
-      "date_of_birth": "12/11/2020",
-      "country": "Sri Lanka",
-      "city": "Talpe",
-      "street_address": "33218 Brown Trail",
-      "postal_code": "80615",
-      "created_at": "1/6/2020",
-      "updated_at": "6/22/2020"
-    },
-    {
       "id": 9,
-      "first_name": "Cati",
+      "first_name": "Catia",
       "last_name": "Culshaw",
       "email": "cculshaw8@free.fr",
       "password": "xFJJ9UveRg",
@@ -109,61 +98,39 @@
       "updated_at": "11/22/2020"
     },
     {
-      "id": 10,
-      "first_name": "Dudaaaas",
-      "last_name": "Teas",
-      "email": "dteas9@dropbox.com",
-      "password": "gN5jlwI1gPQ2",
-      "active": false,
-      "status": 10,
-      "avatar": "https://robohash.org/cumquiafacere.bmp?size=200x200&set=set1",
-      "phone": "+52 962 534 5066",
-      "date_of_birth": "4/24/2020",
-      "country": "Mexico",
-      "city": "Providencia",
-      "street_address": "581 Elka Place",
-      "postal_code": "38477",
-      "created_at": "8/12/2019",
-      "updated_at": "9/9/2020"
-    },
-    {
-      "first_name": "Денислав",
-      "last_name": "Стоянов",
+      "first_name": "DENISLAV",
+      "last_name": "STOYANOV",
       "email": "denislavstoyanov48@gmail.com",
       "password": "",
       "phone": null,
       "date_of_birth": "",
       "country": "Bulgaria",
       "city": "",
-      "street_address": "Георги Василев, 4",
+      "street_address": "4, Georgi Vasilev",
+      "postal_code": "9022",
+      "id": 10
+    },
+    {
+      "password": "",
+      "phone": null,
+      "date_of_birth": "",
+      "city": "",
+      "street_address": "",
+      "postal_code": "",
+      "id": 11
+    },
+    {
+      "first_name": "DENISLAV",
+      "last_name": "STOYANOV",
+      "email": "denislavstoyanov48@gmail.com",
+      "password": "",
+      "phone": null,
+      "date_of_birth": "",
+      "country": "Bulgaria",
+      "city": "",
+      "street_address": "4, Georgi Vasilev",
       "postal_code": "9022",
       "id": 12
-    },
-    {
-      "first_name": "DENISLAV",
-      "last_name": "STOYANOV",
-      "email": "denislavstoyanov48@gmail.com",
-      "password": "",
-      "phone": null,
-      "date_of_birth": "",
-      "country": "Bulgaria",
-      "city": "",
-      "street_address": "4, Georgi Vasilev",
-      "postal_code": "9022",
-      "id": 13
-    },
-    {
-      "first_name": "DENISLAV",
-      "last_name": "STOYANOV",
-      "email": "denislavstoyanov48@gmail.com",
-      "password": "",
-      "phone": null,
-      "date_of_birth": "",
-      "country": "Bulgaria",
-      "city": "",
-      "street_address": "4, Georgi Vasilev",
-      "postal_code": "9022",
-      "id": 14
     }
   ]
 }
