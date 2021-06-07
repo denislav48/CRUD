@@ -36,7 +36,7 @@ function LoginRegisterForm(props) {
           : null
       )
       .then(() =>
-        sessionStorage.getItem("accessToken") ? setAccess(true) : null
+        sessionStorage.getItem("accessToken") ? props.setToken(sessionStorage.getItem("accessToken")) : null
       )
       .then(() => history.push("/users"));
   };

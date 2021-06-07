@@ -8,11 +8,17 @@ import {
 import UsersList from "./components/UsersList";
 import AddEditUser from "./components/AddEditUser";
 import LoginRegisterForm from "./components/LoginRegisterForm";
+import GuardedRoute from "./components/GuardedRoute";
 
 function App() {
-  let accessToken = sessionStorage.getItem("accessToken");
-  console.log(accessToken);
+  const [token, setToken] = useState("");
+  const [accessToken, setAccessToken] = useState("");
 
+  useEffect(() => {
+    setAccessToken(sessionStorage.getItem("accessToken"));
+  }, [token]);
+
+  console.log(accessToken);
   return (
     <Router>
       <div>
@@ -33,30 +39,37 @@ function App() {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-
-        {/* <GuardedRoute to="/users"  component={UsersList} auth={accessToken}/> */}
           <Route exact path="/">
             {!accessToken ? <Redirect to="/login" /> : <Redirect to="/users" />}
           </Route>
+
           {!accessToken ? (
-            <Route exact path="/login" component={LoginRegisterForm} />
+            <Route exact path="/login">
+              <LoginRegisterForm setToken={setToken}></LoginRegisterForm>
+            </Route>
           ) : (
             <Route exact path="/users" component={UsersList} />
           )}
+
           <Route exact path="/login">
-            <Redirect to="/users" />
+            {!accessToken ? <Redirect to="/login" /> : <Redirect to="/users" />}
           </Route>
-          <Route exact path="/users" component={UsersList} />
 
-          <Route exact path="/register" component={LoginRegisterForm} />
-
-          {/* <Route exact path="/login">
-            {!accessToken ? <Redirect to="/login" ></Redirect> : <Redirect to="/users" />}
-          </Route> */}
-
-          <Route exact path="/edit/:id" component={AddEditUser} />
-
-          <Route exact path="/addUser" component={AddEditUser} />
+          <GuardedRoute
+            path="/users"
+            component={UsersList}
+            auth={accessToken}
+          />
+          <GuardedRoute
+            path="/edit/:id"
+            component={AddEditUser}
+            auth={accessToken}
+          />
+          <GuardedRoute
+            path="/addUser"
+            component={AddEditUser}
+            auth={accessToken}
+          />
         </Switch>
       </div>
     </Router>
