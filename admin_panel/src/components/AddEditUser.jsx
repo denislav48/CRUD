@@ -22,13 +22,13 @@ function AddEditUser(props) {
   const [street, setStreet] = useState("");
   const [postal, setPostal] = useState("");
   const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState(null);
+  const [phone, setPhone] = useState("");
   const [birthDate, setBirthDate] = useState("");
-  const [createdAt, setCreatedAt] = useState("");
-  const [updatedAt, setUpdatedAt] = useState("");
+
 
   const notifyEdit = (name) => toast(`User ${name} edited!`);
   const notifyAdd = (name) => toast(`User ${name} added`);
+  const notifyAddUserMissingData = () => toast('Please fill all the missing fields!');
 
   function selectCountry(val) {
     setCountry(val);
@@ -39,7 +39,7 @@ function AddEditUser(props) {
   }
 
   useEffect(() => {
-    fetch(`http://localhost:3001/users/${id || ""}`)
+    fetch(`http://localhost:3001/employees/${id || ""}`)
       .then((res) => res.json())
       .then((data) => {
         setUserData(data);
@@ -48,6 +48,11 @@ function AddEditUser(props) {
         setEmail(data.email);
         setActive(data.active);
         setCountry(data.country);
+        setRegion(data.city);
+        setPhone(data.phone);
+        setPostal(data["postal_code"]);
+        setStreet(data["street_address"]);
+        setBirthDate(data["date_of_birth"]);
       });
     // .then(() => setCountry(userData.country));
   }, [id]);
@@ -58,8 +63,16 @@ function AddEditUser(props) {
     data["first_name"] = firstName;
     data["last_name"] = lastName;
     data.email = email;
+    data.password = password;
     data.active = active;
+    data.phone = phone;
+    data["date_of_birth"] = birthDate;
     data.country = country;
+    data.city = region;
+    data["street_address"] = street;
+    data["postal_code"] = postal;
+    data["updated_at"] = new Date().toLocaleDateString();
+
     setUserData(data);
     async function editUser() {
       const response = await fetch(`http://localhost:3001/employees/${id}`, {
@@ -95,7 +108,14 @@ function AddEditUser(props) {
     data.city = region;
     data["street_address"] = street;
     data["postal_code"] = postal;
+    data["created_at"] = new Date().toLocaleDateString();
+  
     setUserData(data);
+
+    if(!(firstName && lastName && email && password && phone && birthDate && country && region && street && postal )) {
+      notifyAddUserMissingData();
+      return;
+    }
     async function add() {
       const response = await fetch(`http://localhost:3001/employees`, {
         method: "POST",
@@ -179,77 +199,76 @@ function AddEditUser(props) {
             placeholder="Enter email"
           />
         </Form.Group>
-        {!id ? (
-          <>
-            <Row>
-              <Col>
-                <Form.Label>Birth date</Form.Label>
-                <Form.Control
-                  onChange={(ev) => setBirthDate(ev.target.value)}
-                  type="date"
-                  placeholder="Birth date"
-                />
-              </Col>
-            </Row>
-            <Row className="mt-3">
-              <Col>
-                <Form.Label>Str. address</Form.Label>
-                <Form.Control
-                  onChange={(ev) => setStreet(ev.target.value)}
-                  type="text"
-                  placeholder="Address"
-                />
-              </Col>
-            </Row>
-            <Row className="mt-3">
-              <Col sm="5">
-                <Form.Label>Country/City</Form.Label>
-                <br />
-                <CountryDropdown
-                  className="country"
-                  value={country}
-                  onChange={(val) => selectCountry(val)}
-                />
-                <RegionDropdown
-                  className="country"
-                  country={country}
-                  value={region}
-                  onChange={(val) => selectRegion(val)}
-                />
-              </Col>
-              <Col sm="2">
-                <Form.Label className="postal">Post code</Form.Label>
-                <Form.Control
-                  onChange={(ev) => setPostal(ev.target.value)}
-                  type="text"
-                  pattern="[0-9]*"
-                ></Form.Control>
-              </Col>
-            </Row>
 
-            <Row className="mt-3">
-              <Col sm="5">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  onChange={(ev) => setPassword(ev.target.value)}
-                  type="password"
-                  placeholder="Password"
-                />
-              </Col>
-            </Row>
-          </>
-        ) : (
-          <Row>
-            <Col>
-              <label>Country</label>
-              <br />
-              <CountryDropdown
-                value={country}
-                onChange={(val) => selectCountry(val)}
-              />
-            </Col>
-          </Row>
-        )}
+        <Row>
+          <Col>
+            <Form.Label>Birth date</Form.Label>
+            <Form.Control
+            value={birthDate}
+              onChange={(ev) => setBirthDate(ev.target.value)}
+              type="date"
+              placeholder="Birth date"
+            />
+          </Col>
+        </Row>
+        <Row className="mt-3">
+          <Col>
+            <Form.Label>Str. address</Form.Label>
+            <Form.Control
+            value={street}
+              onChange={(ev) => setStreet(ev.target.value)}
+              type="text"
+              placeholder="Address"
+            />
+          </Col>
+        </Row>
+        <Row className="mt-3">
+          <Col sm="5">
+            <Form.Label>Country/City</Form.Label>
+            <br />
+            <CountryDropdown
+              className="country"
+              value={country}
+              onChange={(val) => selectCountry(val)}
+            />
+            <RegionDropdown
+              className="country"
+              country={country}
+              value={region}
+              onChange={(val) => selectRegion(val)}
+            />
+          </Col>
+          <Col sm="2">
+            <Form.Label className="postal">Post code</Form.Label>
+            <Form.Control
+              value={postal}
+              onChange={(ev) => setPostal(ev.target.value)}
+              type="text"
+              pattern="[0-9]*"
+            ></Form.Control>
+          </Col>
+        </Row>
+
+        <Row className="mt-3">
+          <Col sm="5">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              onChange={(ev) => setPassword(ev.target.value)}
+              type="password"
+              placeholder="Password"
+            />
+          </Col>
+          <Col>
+          <Form.Label>Phone</Form.Label>
+            <Form.Control
+            value={phone}
+              onChange={(ev) => setPhone(ev.target.value)}
+              type="tel"
+              placeholder="Phone"
+            />
+          </Col>
+        </Row>
+
         {/* <Form.Group controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control type="password" placeholder="Password" />
@@ -257,6 +276,7 @@ function AddEditUser(props) {
         <Form.Group controlId="formBasicCheckbox" className="mt-2">
           <Form.Check
             type="checkbox"
+            checked={active}
             onChange={(ev) => {
               setActive(ev.target.checked);
               console.log(active);

@@ -12,26 +12,26 @@
       "first_name": "Reaгaaaaas",
       "last_name": "O' Hern",
       "email": "rohern0@meetup.com",
-      "password": "KUAX2enaY",
+      "password": "",
       "active": true,
       "status": 1,
       "avatar": "https://robohash.org/quoimpeditid.png?size=200x200&set=set1",
-      "phone": "+86 857 960 2219",
-      "date_of_birth": "8/10/2020",
+      "phone": "+86 857 960 2218",
+      "date_of_birth": "2001-05-09",
       "country": "Chad",
-      "city": "Xintai",
+      "city": "Sila",
       "street_address": "2675 Stephen Road",
-      "postal_code": null,
+      "postal_code": "1000",
       "created_at": "8/30/2019",
-      "updated_at": "11/1/2020"
+      "updated_at": "6/7/2021"
     },
     {
       "id": 3,
       "first_name": "Francis",
       "last_name": "Iddon",
       "email": "fiddon2@w3.org",
-      "password": "RpSIu2sQ4c",
-      "active": false,
+      "password": "",
+      "active": true,
       "status": 3,
       "avatar": "https://robohash.org/atvitaeprovident.png?size=200x200&set=set1",
       "phone": "+66 596 875 7033",
@@ -41,7 +41,7 @@
       "street_address": "1060 Schurz Way",
       "postal_code": "73130",
       "created_at": "11/13/2019",
-      "updated_at": "12/8/2020"
+      "updated_at": "6/7/2021"
     },
     {
       "id": 5,
@@ -117,7 +117,8 @@
       "city": "",
       "street_address": "",
       "postal_code": "",
-      "id": 11
+      "id": 11,
+      "created_at": "6/7/2021"
     },
     {
       "first_name": "DENISLAV",
@@ -131,6 +132,21 @@
       "street_address": "4, Georgi Vasilev",
       "postal_code": "9022",
       "id": 12
+    },
+    {
+      "first_name": "Georgy",
+      "last_name": "Hristov",
+      "email": "georgy@gmail.com",
+      "password": "",
+      "phone": "0899999999",
+      "date_of_birth": "1999-03-28",
+      "country": "Bulgaria",
+      "city": "Varna",
+      "street_address": "48, Georgi Vasilev",
+      "postal_code": "9000",
+      "created_at": "6/7/2021",
+      "id": 13,
+      "updated_at": "6/7/2021"
     }
   ]
 }
