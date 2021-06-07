@@ -60,7 +60,7 @@ function App() {
             component={UsersList}
             auth={accessToken}
           />
-          <GuardedRoute
+          <GuardedRoute 
             path="/edit/:id"
             component={AddEditUser}
             auth={accessToken}
