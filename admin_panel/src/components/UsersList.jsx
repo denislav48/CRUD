@@ -8,6 +8,7 @@ import {
   Form,
   Row,
   Col,
+  Badge,
 } from "react-bootstrap";
 //import usersData from "../mock_data.json";
 import UsersPagination from "./UsersPagination";
@@ -15,6 +16,7 @@ import { Link } from "react-router-dom";
 import { FcAlphabeticalSortingAz } from "react-icons/fc";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./UsersList.css";
 
 function UsersList(props) {
   const [users, setUsers] = useState([]);
@@ -28,8 +30,13 @@ function UsersList(props) {
     setSelectedId(id);
     setShow(true);
   };
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const notifyDelete = () => toast("User Deleted!");
+  const notifyUploadWarning = () => toast("Please first select a file for upload!");
+  const notifyUploadComplete = () => toast("File uploaded!");
+
+
 
   function onPageChange(page) {
     setPage(page);
@@ -75,9 +82,7 @@ function UsersList(props) {
     }
     deleteID(selectedId)
       .then((response) => {
-        response.status === 200
-          ? notifyDelete()
-          : console.log("alabal");
+        response.status === 200 ? notifyDelete() : console.log("alabal");
       })
       .catch((err) => console.log(err));
     handleClose();
@@ -95,12 +100,16 @@ function UsersList(props) {
   const sortByFirstName = () => {
     async function sort() {
       if (!isAscending) {
-        await fetch(`http://localhost:3001/employees?_sort=first_name&_order=asc`)
+        await fetch(
+          `http://localhost:3001/employees?_sort=first_name&_order=asc`
+        )
           .then((res) => res.json())
           .then((data) => setUsers(data))
           .then(() => setIsAscending(true));
       } else {
-        await fetch(`http://localhost:3001/employees?_sort=first_name&_order=desc`)
+        await fetch(
+          `http://localhost:3001/employees?_sort=first_name&_order=desc`
+        )
           .then((res) => res.json())
           .then((data) => setUsers(data))
           .then(() => setIsAscending(false));
@@ -109,14 +118,34 @@ function UsersList(props) {
     sort();
   };
 
+  const onChangeHandler = (event) => {
+    event.preventDefault();
+    console.log(event.target.files[0]);
+    setSelectedFile(event.target.files[0]);
+  };
+  const onSubmitClickHandler = () => {
+    if (selectedFile) {
+      const data = new FormData();
+      data.append("file", selectedFile);
+
+      fetch("http://localhost:8000/upload", {
+        method: "POST",
+        body: data,
+      }).then((res) => console.log(res))
+      .then(() => notifyUploadComplete())
+    } else {
+      notifyUploadWarning();
+    }
+  };
+
   return (
     <Container style={{ marginTop: "10px" }}>
       <ToastContainer />
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Delete User</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Body>Are you sure you want to delete the user?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
@@ -129,6 +158,19 @@ function UsersList(props) {
 
       <Form>
         <Row>
+          <Col>
+            <Button>
+              <input
+                type="file"
+                name="file"
+                onChange={(e) => onChangeHandler(e)}
+              />
+            </Button>
+          </Col>
+          <Col>
+            <Button  onClick={() => onSubmitClickHandler()}>Upload file</Button>
+          </Col>
+
           <Col>
             <Link to="/addUser">
               <Button variant="secondary" style={{ float: "right" }}>
@@ -149,7 +191,7 @@ function UsersList(props) {
         </Row>
       </Form>
 
-      <Table striped bordered hover>
+      <Table className="" striped bordered hover>
         <thead>
           <tr>
             <th>ID</th>
@@ -175,12 +217,15 @@ function UsersList(props) {
                   <td>{user.email}</td>
                   <td>{user.phone}</td>
                   <td>
-                    <Form.Check
-                      disabled
-                      type="radio"
-                      label="disabled radio"
-                      id="disabled-default-radio"
-                    />
+                    {user.active ? (
+                      <Badge pill variant="success">
+                        Active
+                      </Badge>
+                    ) : (
+                      <Badge pill variant="danger">
+                        Inactive
+                      </Badge>
+                    )}
                   </td>
                   <td>
                     <Link to={`/edit/${user.id}`}>
@@ -204,12 +249,16 @@ function UsersList(props) {
                   <td>{user.email}</td>
                   <td>{user.phone}</td>
                   <td>
-                    <Form.Check
-                      disabled
-                      type="radio"
-                      label="disabled radio"
-                      id="disabled-default-radio"
-                    />
+                    {" "}
+                    {user.active ? (
+                      <Badge pill variant="success">
+                        Active
+                      </Badge>
+                    ) : (
+                      <Badge pill variant="danger">
+                        Inactive
+                      </Badge>
+                    )}
                   </td>
                   <td>
                     <Link to={`/edit/${user.id}`}>
@@ -228,6 +277,7 @@ function UsersList(props) {
           })}
         </tbody>
       </Table>
+      <img alt="" src="../1623070708628-20160712_180312.jpg" width="500px" />
       <UsersPagination change={onPageChange} page={page} pages={usersPages} />
     </Container>
   );

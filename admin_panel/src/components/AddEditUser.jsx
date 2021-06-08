@@ -21,14 +21,13 @@ function AddEditUser(props) {
   const [region, setRegion] = useState("");
   const [street, setStreet] = useState("");
   const [postal, setPostal] = useState("");
-  const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [birthDate, setBirthDate] = useState("");
 
-
   const notifyEdit = (name) => toast(`User ${name} edited!`);
   const notifyAdd = (name) => toast(`User ${name} added`);
-  const notifyAddUserMissingData = () => toast('Please fill all the missing fields!');
+  const notifyAddUserMissingData = () =>
+    toast("Please fill all the missing fields!");
 
   function selectCountry(val) {
     setCountry(val);
@@ -57,13 +56,16 @@ function AddEditUser(props) {
     // .then(() => setCountry(userData.country));
   }, [id]);
 
+  // fetch("http://localhost:8000/upload/images.jpg", {
+  //   method: "GET"
+  // }).then(res => console.log(res));
+
   const updateUser = (e) => {
     e.preventDefault();
     const data = userData;
     data["first_name"] = firstName;
     data["last_name"] = lastName;
     data.email = email;
-    data.password = password;
     data.active = active;
     data.phone = phone;
     data["date_of_birth"] = birthDate;
@@ -100,7 +102,6 @@ function AddEditUser(props) {
     data["first_name"] = firstName;
     data["last_name"] = lastName;
     data.email = email;
-    data.password = password;
     data.active = active;
     data.phone = phone;
     data["date_of_birth"] = birthDate;
@@ -109,10 +110,20 @@ function AddEditUser(props) {
     data["street_address"] = street;
     data["postal_code"] = postal;
     data["created_at"] = new Date().toLocaleDateString();
-  
-    setUserData(data);
 
-    if(!(firstName && lastName && email && password && phone && birthDate && country && region && street && postal )) {
+    if (
+      !(
+        firstName &&
+        lastName &&
+        email &&
+        phone &&
+        birthDate &&
+        country &&
+        region &&
+        street &&
+        postal
+      )
+    ) {
       notifyAddUserMissingData();
       return;
     }
@@ -142,8 +153,8 @@ function AddEditUser(props) {
         <div>
           {id ? (
             <div>
-              <h2>{firstName}</h2>
-              <h4>{email}</h4>
+              <h4>{firstName}</h4>
+              <h6>{email}</h6>
             </div>
           ) : (
             <h3>Add new user</h3>
@@ -151,21 +162,11 @@ function AddEditUser(props) {
         </div>
       </div>
       <Form>
-        {id ? (
-          <Row className="avatar">
-            <Col>
-              <Image
-                style={{ backgroundColor: "black" }}
-                src={userData.avatar}
-                roundedCircle
-              />
-            </Col>
-          </Row>
-        ) : null}
         <Row className="mt-4">
           <Col>
-            <Form.Label>First name</Form.Label>
+            <Form.Label size="sm">First name</Form.Label>
             <Form.Control
+              size="sm"
               value={firstName || ""}
               onChange={(ev) => {
                 setFirstName(ev.target.value);
@@ -176,8 +177,9 @@ function AddEditUser(props) {
           </Col>
 
           <Col>
-            <Form.Label>Last name</Form.Label>
+            <Form.Label size="sm">Last name</Form.Label>
             <Form.Control
+              size="sm"
               value={lastName || ""}
               onChange={(ev) => {
                 setLastName(ev.target.value);
@@ -188,8 +190,9 @@ function AddEditUser(props) {
           </Col>
         </Row>
         <Form.Group controlId="formBasicEmail" className="mt-3 mb-3">
-          <Form.Label>Email address</Form.Label>
+          <Form.Label size="sm">Email address</Form.Label>
           <Form.Control
+            size="sm"
             value={email || ""}
             type="email"
             onChange={(ev) => {
@@ -202,9 +205,10 @@ function AddEditUser(props) {
 
         <Row>
           <Col>
-            <Form.Label>Birth date</Form.Label>
+            <Form.Label size="sm">Birth date</Form.Label>
             <Form.Control
-            value={birthDate}
+              size="sm"
+              value={birthDate}
               onChange={(ev) => setBirthDate(ev.target.value)}
               type="date"
               placeholder="Birth date"
@@ -213,9 +217,10 @@ function AddEditUser(props) {
         </Row>
         <Row className="mt-3">
           <Col>
-            <Form.Label>Str. address</Form.Label>
+            <Form.Label size="sm">Str. address</Form.Label>
             <Form.Control
-            value={street}
+              size="sm"
+              value={street}
               onChange={(ev) => setStreet(ev.target.value)}
               type="text"
               placeholder="Address"
@@ -224,7 +229,7 @@ function AddEditUser(props) {
         </Row>
         <Row className="mt-3">
           <Col sm="5">
-            <Form.Label>Country/City</Form.Label>
+            <Form.Label size="sm">Country/City</Form.Label>
             <br />
             <CountryDropdown
               className="country"
@@ -239,8 +244,11 @@ function AddEditUser(props) {
             />
           </Col>
           <Col sm="2">
-            <Form.Label className="postal">Post code</Form.Label>
+            <Form.Label size="sm" className="postal">
+              Post code
+            </Form.Label>
             <Form.Control
+              size="sm"
               value={postal}
               onChange={(ev) => setPostal(ev.target.value)}
               type="text"
@@ -250,18 +258,11 @@ function AddEditUser(props) {
         </Row>
 
         <Row className="mt-3">
-          <Col sm="5">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              onChange={(ev) => setPassword(ev.target.value)}
-              type="password"
-              placeholder="Password"
-            />
-          </Col>
           <Col>
-          <Form.Label>Phone</Form.Label>
+            <Form.Label>Phone</Form.Label>
             <Form.Control
-            value={phone}
+              size="sm"
+              value={phone}
               onChange={(ev) => setPhone(ev.target.value)}
               type="tel"
               placeholder="Phone"
@@ -269,10 +270,6 @@ function AddEditUser(props) {
           </Col>
         </Row>
 
-        {/* <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" />
-        </Form.Group> */}
         <Form.Group controlId="formBasicCheckbox" className="mt-2">
           <Form.Check
             type="checkbox"
@@ -284,23 +281,32 @@ function AddEditUser(props) {
             label="Active"
           />
         </Form.Group>
-        {id ? (
-          <Button
-            onClick={(е) => updateUser(е)}
-            variant="primary"
-            type="submit"
-          >
-            Submit
-          </Button>
-        ) : (
-          <Button onClick={(е) => addUser(е)} variant="primary" type="submit">
-            Submit
-          </Button>
-        )}
-        <Link to={"/users"}>
-          {"  "}
-          <Button variant="secondary">Cancel</Button>
-        </Link>
+
+        <Row>
+          <Col>
+            {id ? (
+              <Button
+                onClick={(е) => updateUser(е)}
+                variant="primary"
+                type="submit"
+              >
+                Edit
+              </Button>
+            ) : (
+              <Button
+                onClick={(е) => addUser(е)}
+                variant="primary"
+                type="submit"
+              >
+                Add
+              </Button>
+            )}
+            <Link to={"/users"}>
+              {"  "}
+              <Button variant="secondary">Cancel</Button>
+            </Link>
+          </Col>
+        </Row>
       </Form>
     </Container>
   );

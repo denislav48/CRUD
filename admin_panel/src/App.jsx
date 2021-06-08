@@ -45,7 +45,7 @@ function App() {
 
           {!accessToken ? (
             <Route exact path="/login">
-              <LoginRegisterForm setToken={setToken}></LoginRegisterForm>
+              <LoginRegisterForm setToken={setToken} ></LoginRegisterForm>
             </Route>
           ) : (
             <Route exact path="/users" component={UsersList} />
